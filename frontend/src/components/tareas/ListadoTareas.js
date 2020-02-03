@@ -1,26 +1,19 @@
-import React, { Fragment, useContext, useEffect } from 'react';
+import React, { Fragment, useContext } from 'react';
 import Tarea from './Tarea';
 import proyectoContext from './../../context/proyectos/proyectoContext';
 import tareaContext from './../../context/tareas/tareaContext';
 
 const ListadoTareas = () => {
 
-    // Obtener el state de proyectos y tareas
+    // Obtener el state de proyectos
     const proyectosContext = useContext(proyectoContext);
-    const tareasContext = useContext(tareaContext);
-
     // State de proyecto y Funcion de State
     const { proyecto } = proyectosContext;
     const { eliminarProyecto } = proyectosContext;
 
-    // State de tarea y Funcion de State
-    const { tareas } = tareasContext;
-    const { obtenerTareas } = tareasContext;
-
-    // Obtener tareas cuando carga el componente 
-    useEffect(() => {
-        obtenerTareas();
-    }, []);
+    // Obtener las tareas del proyecto
+    const tareasContext = useContext(tareaContext);
+    const { tareasproyecto } = tareasContext;
 
     // Si no hay proyecto Seleccionado
     if(!proyecto) return <h2>Selecciona un Proyecto</h2>;
@@ -29,7 +22,7 @@ const ListadoTareas = () => {
 
     // Elimina un proyecto
     const onClickEliminar = (id) => {
-        console.log('Eliminar Proyecto Id: ', id);
+        console.log('Eliminar Proyecto Id: ', id); 
         // return null;
         eliminarProyecto(id);
     }
@@ -39,12 +32,12 @@ const ListadoTareas = () => {
             <h2>Proyecto: {proyectoActual.nombre}</h2>
             <ul className="listado-tareas">
                 {
-                    tareas.length === 0
+                    tareasproyecto.length === 0
                     ? (<li className="tarea"><p>No hay tareas</p></li>)
-                    :   tareas.map(tarea => {
+                    :   tareasproyecto.map(tarea => {
                                 return(
                                     <Tarea
-                                        key={tarea.proyectoId}
+                                        key={tarea.id} 
                                         tarea={tarea}
                                     />
                                 );

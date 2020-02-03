@@ -1,11 +1,19 @@
-import { OBTENER_TAREAS } from './../../types';
+import {
+    TAREAS_PROYECTO,
+    AGREGAR_TAREA
+} from './../../types';
 
 export default (state, action) => {
     switch (action.type) {
-        case OBTENER_TAREAS:
+        case TAREAS_PROYECTO:
             return {
                 ...state,
-                tareas: action.payload
+                tareasproyecto: state.tareas.filter(tarea => tarea.proyectoId === action.payload)
+            }
+        case AGREGAR_TAREA:
+            return {
+                ...state,
+                tareas: [...state.tareas, action.payload]
             }
         default:
             return state;
