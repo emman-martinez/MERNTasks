@@ -3,7 +3,9 @@ import tareaContext from './tareaContext';
 import tareaReducer from './tareaReducer';
 import { 
         TAREAS_PROYECTO,
-        AGREGAR_TAREA
+        AGREGAR_TAREA, 
+        VALIDAR_TAREA,
+        ELIMINAR_TAREA
     } from './../../types';
 
 const TareaState = (props) => {
@@ -25,7 +27,9 @@ const TareaState = (props) => {
             { id:12, proyectoId: 5, nombre: 'Elegir Colores', estado: false },
             { id:13, proyectoId: 6, nombre: 'Elegir Plataformas de pago', estado: false },
         ],
-        tareasproyecto: null
+        tareasproyecto: null,
+        errortarea: false,
+        tarea: null
     }
 
     // Crear dispatch y state
@@ -47,6 +51,20 @@ const TareaState = (props) => {
         });
     };
 
+    
+    const validarTarea = () => { // Valida y muestra un error en caso de que sea necesario
+        dispatch({
+            type: VALIDAR_TAREA
+        });
+    };
+
+    const eliminarTarea = (id) => { // Eliminar tarea por id
+        dispatch({
+            type: ELIMINAR_TAREA,
+            payload: id
+        });
+    };
+
     // ***** Fin CRUD ***** //
 
     return (
@@ -54,8 +72,11 @@ const TareaState = (props) => {
             value={{
                 tareas: state.tareas,
                 tareasproyecto: state.tareasproyecto,
+                errortarea: state.errortarea,
                 obtenerTareas, 
-                agregarTarea
+                agregarTarea,
+                validarTarea,
+                eliminarTarea
             }}
         >
             {props.children}  
