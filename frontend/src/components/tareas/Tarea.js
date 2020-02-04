@@ -12,7 +12,7 @@ const Tarea = (props) => {
 
     // Obtener las tareas del proyecto
     const tareasContext = useContext(tareaContext);
-    const { eliminarTarea, obtenerTareas } = tareasContext;
+    const { eliminarTarea, obtenerTareas, cambiarEstadoTarea, guardarTareaActual } = tareasContext;
 
     // Extraer el proyecto
     const [proyectoActual] = proyecto;
@@ -21,6 +21,21 @@ const Tarea = (props) => {
     const tareaEliminar = (id) => {
         eliminarTarea(id);
         obtenerTareas(proyectoActual.id);
+    };
+
+    // Función que modifica el estado de las tareas
+    const cambiarEstado = (tarea) => {
+        if(tarea.estado) {
+            tarea.estado = false;
+        } else{
+            tarea.estado = true;
+        }
+        cambiarEstadoTarea(tarea);
+    };
+
+    // Agrega una tarea actual cuendo el usuario desea editarla
+    const seleccionarTarea = (tarea) => {
+        guardarTareaActual(tarea);
     };
 
     return (
@@ -34,6 +49,7 @@ const Tarea = (props) => {
                             <button
                                 type="button"
                                 className="completo"
+                                onClick={() => cambiarEstado(tarea)}
                             >
                                 Completo
                             </button>
@@ -43,6 +59,7 @@ const Tarea = (props) => {
                             <button
                                 type="button"
                                 className="incompleto"
+                                onClick={() => cambiarEstado(tarea)}
                             >
                                 Incompleto
                             </button>
@@ -54,6 +71,7 @@ const Tarea = (props) => {
                 <button
                     type="button"
                     className="btn btn-primario"
+                    onClick={() => seleccionarTarea(tarea)}
                 >
                     Editar
                 </button>

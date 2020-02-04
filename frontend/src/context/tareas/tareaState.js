@@ -5,7 +5,10 @@ import {
         TAREAS_PROYECTO,
         AGREGAR_TAREA, 
         VALIDAR_TAREA,
-        ELIMINAR_TAREA
+        ELIMINAR_TAREA,
+        ESTADO_TAREA,
+        TAREA_ACTUAL,
+        ACTUALIZAR_TAREA
     } from './../../types';
 
 const TareaState = (props) => {
@@ -29,7 +32,7 @@ const TareaState = (props) => {
         ],
         tareasproyecto: null,
         errortarea: false,
-        tarea: null
+        tareaseleccionada: null
     }
 
     // Crear dispatch y state
@@ -65,6 +68,26 @@ const TareaState = (props) => {
         });
     };
 
+    const cambiarEstadoTarea = (tarea) => { // Cambia el estado de cada tarea
+        dispatch({
+            type: ESTADO_TAREA,
+            payload: tarea
+        });
+    };
+
+    const guardarTareaActual = (tarea) => { // Extrae una tarea para edición
+        dispatch({
+            type: TAREA_ACTUAL,
+            payload: tarea
+        });
+    };
+
+    const actualizarTarea = tarea => { // Edita o modifica una tarea
+        dispatch({
+            type: ACTUALIZAR_TAREA,
+            payload: tarea
+        });
+    };
     // ***** Fin CRUD ***** //
 
     return (
@@ -73,10 +96,14 @@ const TareaState = (props) => {
                 tareas: state.tareas,
                 tareasproyecto: state.tareasproyecto,
                 errortarea: state.errortarea,
+                tareaseleccionada: state.tareaseleccionada,
                 obtenerTareas, 
                 agregarTarea,
                 validarTarea,
-                eliminarTarea
+                eliminarTarea,
+                cambiarEstadoTarea,
+                guardarTareaActual,
+                actualizarTarea
             }}
         >
             {props.children}  
