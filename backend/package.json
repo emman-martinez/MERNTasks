@@ -1,0 +1,27 @@
+{
+    "name": "merntaskservidor",
+    "version": "1.0.0",
+    "description": "MERN API para MERN TASKS",
+    "main": "index.js",
+    "scripts": {
+        "start": "nodemon ./src/index.js --exec"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/Emasesosos/MERNTasks.git"
+    },
+    "author": "Emmanuel Martínez",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/Emasesosos/MERNTasks/issues"
+    },
+    "homepage": "https://github.com/Emasesosos/MERNTasks#readme",
+    "devDependencies": {
+        "nodemon": "^2.0.2"
+    },
+    "dependencies": {
+        "dotenv": "^8.2.0",
+        "express": "^4.17.1",
+        "mongoose": "^5.8.11"
+    }
+}

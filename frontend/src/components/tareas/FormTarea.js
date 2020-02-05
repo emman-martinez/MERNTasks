@@ -10,7 +10,14 @@ const FormTarea = () => {
 
     // Obtener las tareas del proyecto
     const tareasContext = useContext(tareaContext);
-    const { errortarea, tareaseleccionada, agregarTarea, validarTarea, obtenerTareas, actualizarTarea } = tareasContext;
+    const { errortarea, 
+            tareaseleccionada, 
+            agregarTarea, 
+            validarTarea, 
+            obtenerTareas, 
+            actualizarTarea,
+            limpiarTarea
+        } = tareasContext;
 
     // State del formulario
     const [tarea, guardarTarea] = useState({
@@ -62,6 +69,9 @@ const FormTarea = () => {
         } else {
             // Actualizar tarea existente
             actualizarTarea(tarea);
+
+            // Elimina tareaseleccionada del state
+            limpiarTarea();
         }
         
         // Obtener y filtrar las tareas del proyecto actual
