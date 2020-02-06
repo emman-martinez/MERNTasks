@@ -17,6 +17,7 @@
     },
     "homepage": "https://github.com/Emasesosos/MERNTasks#readme",
     "devDependencies": {
+        "colors": "^1.4.0",
         "nodemon": "^2.0.2"
     },
     "dependencies": {
