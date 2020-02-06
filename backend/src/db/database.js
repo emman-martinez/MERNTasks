@@ -2,10 +2,10 @@
 const mongoose = require('mongoose');
 
 const URI = process.env.DB_MONGO_ATLAS ?
-    process.env.DB_MONGO_ATLAS :
-    (process.env.DB_MONGO_LOCAL ?
-        process.env.DB_MONGO_LOCAL :
-        'mongodb://localhost/databasetest');
+            process.env.DB_MONGO_ATLAS :
+            (process.env.DB_MONGO_LOCAL ?
+            process.env.DB_MONGO_LOCAL :
+            'mongodb://localhost/databasetest');
 
 const conectarDB = async() => {
     try {
