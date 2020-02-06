@@ -1,18 +1,16 @@
-// ***** Creación de Servidor con ExpressJS ***** //
-const express = require('express');
+// ***** Servidor ***** //
 require('dotenv').config();
 require('colors');
 
-const app = express(); // Crear el servidor
-const PORT = process.env.PORT || 4000; // Puerto de la app
+const app = require('./app');
+const port = app.get('port');
+
 require('./db/database'); // Conexión a Base de Datos
 
-app.use('/api/usuarios', require('./routes/usuarios'));// Importar rutas Usuarios
-
 const main = async() => { // Arranca el Servidor
-    await app.listen(PORT, () => {
-        console.log('Server on Port:'.cyan, PORT);
+    await app.listen(port, () => {
+        console.log('Server on Port:'.cyan, port);
     });
 };
 
-main();  
+main();
