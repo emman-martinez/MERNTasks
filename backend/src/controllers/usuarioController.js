@@ -3,12 +3,19 @@ const usuariosCtrl = {};
 
 const Usuario = require('./../models/Usuario');
 const bcryptjs = require('bcryptjs');
+const { validationResult } = require('express-validator');
 
 // ***** POST - CREATE => crearUsuario ***** //
 usuariosCtrl.crearUsuario = async(req, res) => {
 
     console.log('Desde usuarioController: crearUsuario');
     console.log(req.body);
+
+    // Revisar si hay errores
+    const errores = validationResult(req);
+    if(!errores.isEmpty()) {
+        return res.status(400).json({ errores: errores.array() }); 
+    }
 
     // Extraer Email y Password 
     const { email, password } = req.body;
