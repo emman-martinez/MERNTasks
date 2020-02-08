@@ -4,8 +4,9 @@ const usuariosCtrl = {};
 const Usuario = require('./../models/Usuario');
 const bcryptjs = require('bcryptjs');
 const { validationResult } = require('express-validator');
+const jwt = require('jsonwebtoken');
 
-// ***** POST - CREATE => crearUsuario ***** //
+// *+*+*+*+* Inicio: POST - CREATE => crearUsuario *+*+*+*+* //
 usuariosCtrl.crearUsuario = async(req, res) => {
 
     console.log('Desde usuarioController: crearUsuario');
@@ -13,8 +14,8 @@ usuariosCtrl.crearUsuario = async(req, res) => {
 
     // Revisar si hay errores
     const errores = validationResult(req);
-    if(!errores.isEmpty()) {
-        return res.status(400).json({ errores: errores.array() }); 
+    if (!errores.isEmpty()) {
+        return res.status(400).json({ errores: errores.array() });
     }
 
     // Extraer Email y Password 
@@ -34,7 +35,17 @@ usuariosCtrl.crearUsuario = async(req, res) => {
         usuario.password = await bcryptjs.hash(password, salt);
 
         await usuario.save(); // Guardar Usuario
-        res.json({ msg: 'Usuario Creado Correctamente' }); // Mensaje de confirmación  
+        const payload = { // Crear y firmar el JWT
+            usuario: {
+                id: usuario.id
+            }
+        };
+        jwt.sign(payload, process.env.SECRETA, { // Firmar el JWT
+            expiresIn: 3600 // 1 Hora
+        }, (error, token) => {
+            if (error) throw error;
+            res.json({ token }); // Mensaje de confirmación  
+        });
 
     } catch (error) {
 
@@ -44,5 +55,6 @@ usuariosCtrl.crearUsuario = async(req, res) => {
     }
 
 };
+// *+*+*+*+* FIN: POST - CREATE => crearUsuario *+*+*+*+* //
 
 module.exports = usuariosCtrl;
