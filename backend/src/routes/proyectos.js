@@ -2,14 +2,18 @@
 const express = require('express');
 const router = express.Router();
 const { crearProyecto } = require('./../controllers/proyectoController');
-// const { check } = require('express-validator');
+const auth = require('./../middleware/auth');
+const { check } = require('express-validator');
 
 // ***** Routes ***** //
 router.route('/') // api/proyectos
-    .post(crearProyecto); // Crear Proyectos
+    .post(auth, [
+            check('nombre', 'El nombre del proyecto es obligatorio').not().isEmpty()
+        ],
+        crearProyecto); // Crear Proyectos
 
 router.route('/') // api/proyectos
-    .get(); // Obtiene Proyectos
+    .get(auth); // Obtiene Proyectos
 
 router.route('/') // api/proyectos
     .put(); // Actualiza Proyectos
