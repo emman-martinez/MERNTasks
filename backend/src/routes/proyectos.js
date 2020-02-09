@@ -1,7 +1,7 @@
 // Rutas para Proyectos
 const express = require('express');
 const router = express.Router();
-const { crearProyecto } = require('./../controllers/proyectoController');
+const { crearProyecto, obtenerProyectos, actualizarProyecto, eliminarProyecto } = require('./../controllers/proyectoController');
 const auth = require('./../middleware/auth');
 const { check } = require('express-validator');
 
@@ -13,12 +13,15 @@ router.route('/') // api/proyectos
         crearProyecto); // Crear Proyectos
 
 router.route('/') // api/proyectos
-    .get(auth); // Obtiene Proyectos
+    .get(auth, obtenerProyectos); // Obtiene Proyectos
 
-router.route('/') // api/proyectos
-    .put(); // Actualiza Proyectos
+router.route('/:id') // api/proyectos
+    .put(auth, [
+            check('nombre', 'El nombre del proyecto es obligatorio').not().isEmpty()
+        ],
+        actualizarProyecto); // Actualiza Proyectos vía ID
 
-router.route('/') // api/proyectos
-    .delete(); // Elimina Proyectos
+router.route('/:id') // api/proyectos
+    .delete(auth, eliminarProyecto); // Elimina Proyecto
 
 module.exports = router;
