@@ -9,15 +9,18 @@ app.use(express.json({ extended: true })); // Habilitar express.json
 const [
     usuarios,
     auth,
-    proyectos
+    proyectos,
+    tareas
 ] = [
     require('./routes/usuarios'),
     require('./routes/auth'),
-    require('./routes/proyectos')
+    require('./routes/proyectos'),
+    require('./routes/tareas')
 ];
 
 app.use('/api/usuarios', usuarios);
 app.use('/api/auth', auth);
 app.use('/api/proyectos', proyectos);
+app.use('/api/tareas', tareas);
 
 module.exports = app;
