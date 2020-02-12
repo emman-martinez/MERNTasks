@@ -72,6 +72,31 @@ tareasCtrl.actualizarTarea = async(req, res) => {
 
     try {
 
+        const { nombre, estado, proyecto } = req.body; // Extraer el proyecto y comprobar si existe
+
+        let tarea = await Tarea.findById(req.params.id); // Revisar si la tarea existe o no
+        if (!tarea) {
+            return res.status(404).json({ msg: 'No existe esa tarea' });
+        }
+
+        const existeProyecto = await Proyecto.findById(proyecto); // Extraer Proyecto
+        if (existeProyecto.creador.toString() !== req.usuario.id) { // Revisar si el proyecto actual pertenece al usuario autenticado
+            return res.status(401).json({ msg: 'No Autorizado' });
+        }
+
+        const nuevaTarea = {}; // Crear un objeto con la nueva tarea
+        if (nombre) {
+            nuevaTarea.nombre = nombre;
+        }
+        if (estado) {
+            nuevaTarea.estado = estado;
+        }
+
+        tarea = await Tarea.findOneAndUpdate({ _id: req.params.id }, nuevaTarea, { new: true }); // Guardar la tarea
+
+        res.json({ tarea });
+
+
     } catch (error) {
         console.log(error);
         res.status(500).send('Hubo un error');
@@ -85,10 +110,27 @@ tareasCtrl.eliminarTarea = async(req, res) => {
 
     try {
 
+        const { proyecto } = req.body; // Extraer el proyecto y comprobar si existe
+
+        let tarea = await Tarea.findById(req.params.id); // Revisar si la tarea existe o no
+        if (!tarea) {
+            return res.status(404).json({ msg: 'No existe esa tarea' });
+        }
+
+        const existeProyecto = await Proyecto.findById(proyecto); // Extraer Proyecto
+        if (existeProyecto.creador.toString() !== req.usuario.id) { // Revisar si el proyecto actual pertenece al usuario autenticado
+            return res.status(401).json({ msg: 'No Autorizado' });
+        }
+
+        // Eliminar
+        await Tarea.findOneAndRemove({ _id: req.params.id });
+        res.json({ msg: 'Tarea Eliminada' });
+
     } catch (error) {
         console.log(error);
         res.status(500).send('Hubo un error');
     }
+
 };
 
 module.exports = tareasCtrl;
