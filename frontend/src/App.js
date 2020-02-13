@@ -6,21 +6,27 @@ import Proyectos from './components/proyectos/Proyectos';
 import ProyectoState from './context/proyectos/proyectoState';
 import TareaState from './context/tareas/tareaState';
 import AlertaState from './context/alertas/alertaState'; 
+import AuthState from './context/autenticacion/authState';
 
 function App() {
+
+  console.log(process.env.REACT_APP_BACKEND_URL);
+
   return (
     <Fragment>
     { /* MULTIPLES CONTEXT */ }
       <ProyectoState>
         <TareaState>
           <AlertaState>
-            <Router>
-              <Switch> 
-                <Route exact path="/" component={Login}/>
-                <Route exact path="/nueva-cuenta" component={NuevaCuenta}/>
-                <Route exact path="/proyectos" component={Proyectos}/>
-              </Switch>
-            </Router>
+            <AuthState>
+              <Router>
+                <Switch> 
+                  <Route exact path="/" component={Login}/>
+                  <Route exact path="/nueva-cuenta" component={NuevaCuenta}/> 
+                  <Route exact path="/proyectos" component={Proyectos}/>
+                </Switch>
+              </Router>
+            </AuthState>
           </AlertaState>
         </TareaState>
       </ProyectoState>
