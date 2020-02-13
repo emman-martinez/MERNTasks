@@ -101,6 +101,6 @@ const ProyectoState = (props) => {
         </proyectoContext.Provider>
     );
 
-}
+};
 
-export default ProyectoState;
+export default ProyectoState; 
