@@ -49,6 +49,20 @@ authCtrl.autenticarUsuario = async(req, res) => {
     }
 
 };
-// *+*+*+*+* FIN: POST - CREATE => autenticarUsuario *+*+*+*+* //
+
+// *+*+*+*+* Inicio: GET => usuarioAutenticado *+*+*+*+* //
+// Obtiene que usuario esta autenticado
+authCtrl.usuarioAutenticado = async(req, res) => {
+    console.log('Desde authController: usuarioAutenticado');
+    console.log(req.body);
+
+    try {
+        const usuario = await Usuario.findById(req.usuario.id);
+        res.json({ usuario });
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ msg: 'Hubo um error' });
+    }
+};
 
 module.exports = authCtrl;
