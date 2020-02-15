@@ -2,6 +2,7 @@ import React, { useReducer } from 'react';
 import authContext from './authContext';
 import authReducer from './authReducer';
 import clienteAxios from './../../config/axios';
+import tokenAuth from './../../config/tokenAuth';
 import {    REGISTRO_EXITOSO,
             REGISTRO_ERROR,
             OBTENER_USUARIO,
@@ -28,15 +29,15 @@ const AuthState = (props) => {
 
         try {
 
-            const respuesta = await clienteAxios.post('/api/usuarios', datos);
-            console.log(respuesta);
+            const respuesta = await clienteAxios.post('/api/usuarios', datos); // API => usuarios: routes => usuariosController: crearUsuario
+            console.log('registrarUsuario => respuesta: ', respuesta);
             dispatch({
                 type: REGISTRO_EXITOSO,
                 payload: respuesta.data // Token 
             });
 
             // Obtener el Usuario
-            usuarioAutenticado();
+            usuarioAutenticado(); // API => auth: routes => authController: usuarioAutenticado
 
         } catch(error) {
 
@@ -56,17 +57,24 @@ const AuthState = (props) => {
     }; 
 
     // Retorna el usuario autenticado
-    const usuarioAutenticado = async () => {
+    const usuarioAutenticado = async () => { 
         const token = localStorage.getItem('token');
+        console.log('token: ', token);
         if(token) {
             // TODO: Función para enviar el token por headers
+            console.log('Llamado de función => tokenAuth');
+            tokenAuth(token); // API => auth: routes => middleware: auth
         }
 
         try {
-            const respuesta = await clienteAxios.get('/api/auth');
+            const respuesta = await clienteAxios.get('/api/auth'); // API => auth: routes => authController: usuarioAutenticado
             console.log(respuesta);
+            dispatch({
+                type: OBTENER_USUARIO,
+                payload: respuesta.data.usuario
+            });
         } catch (error) {
-            console.log(error);
+            console.log(error.response); 
             dispatch({
                 type: LOGIN_ERROR
             });

@@ -26,7 +26,8 @@ export default (state, action) => {
             }
         case OBTENER_USUARIO:
             return {
-
+                ...state,
+                usuario: action.payload
             }
         case LOGIN_EXITOSO:
             return {

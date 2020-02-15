@@ -57,7 +57,8 @@ authCtrl.usuarioAutenticado = async(req, res) => {
     console.log(req.body);
 
     try {
-        const usuario = await Usuario.findById(req.usuario.id);
+        const usuario = await Usuario.findById(req.usuario.id).select('-password');
+        console.log(usuario);
         res.json({ usuario });
     } catch (error) {
         console.log(error);
