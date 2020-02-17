@@ -15,6 +15,7 @@ export default (state, action) => {
                 formulario: true
             }
         case OBTENER_PROYECTOS:
+            console.log(action.payload);
             return {
                 ...state,
                 proyectos: action.payload
@@ -36,7 +37,7 @@ export default (state, action) => {
                 ...state,
                 proyecto: state.proyectos.filter(proyecto => {
                     return (
-                        proyecto.id === action.payload
+                        proyecto._id === action.payload
                     );
                 })
             }
@@ -45,7 +46,7 @@ export default (state, action) => {
                 ...state,
                 proyectos: state.proyectos.filter(proyecto => {
                     return (
-                        proyecto.id !== action.payload
+                        proyecto._id !== action.payload
                     );
                 }),
                 proyecto: null
