@@ -80,6 +80,43 @@ const AuthState = (props) => {
             });
         }
     }
+
+    // Cuando el usuario inicia Sesión
+    const iniciarSesion = async (datos) => {
+        try {
+
+            const respuesta = await clienteAxios.post('/api/auth', datos);
+            console.log(respuesta);
+            dispatch({
+                type: LOGIN_EXITOSO,
+                payload: respuesta.data
+            });
+            // Obtener el Usuario
+            usuarioAutenticado(); // API => auth: routes => authController: usuarioAutenticado
+
+        } catch (error) {
+
+            //console.log(error.response);
+            console.log(error.response.data.msg); 
+            const { msg } = error.response.data;
+            const alerta = {
+                msg,
+                categoria: 'alerta-error'
+            }
+            dispatch({
+                type: LOGIN_ERROR,
+                payload: alerta
+            });
+            
+        }
+    };
+
+    // Cierra la sesión del usuario
+    const cerrarSesion = () => {
+        dispatch({
+            type: CERRAR_SESION
+        });
+    }
     
     /* ************************** FUNCIONES ************************** */
     return (
@@ -90,7 +127,9 @@ const AuthState = (props) => {
                 usuario: state.usuario,
                 mensaje: state.mensaje,
                 registrarUsuario ,
-                usuarioAutenticado
+                usuarioAutenticado,
+                iniciarSesion,
+                cerrarSesion
             }}
         >
             {props.children} 
