@@ -109,7 +109,7 @@ const AuthState = (props) => {
             });
             
         }
-    };
+    }; 
 
     // Cierra la sesión del usuario
     const cerrarSesion = () => {
