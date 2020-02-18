@@ -42,10 +42,11 @@ tareasCtrl.crearTarea = async(req, res) => {
 tareasCtrl.obtenerTareas = async(req, res) => {
     console.log('Desde tareaController: obtenerTareas');
     console.log(req.body);
+    console.log(req.query);
 
     try {
 
-        const { proyecto } = req.body; // Extraer el proyecto y comprobar si existe
+        const { proyecto } = req.query; // Extraer el proyecto y comprobar si existe
 
         const existeProyecto = await Proyecto.findById(proyecto);
         if (!existeProyecto) {
@@ -56,7 +57,7 @@ tareasCtrl.obtenerTareas = async(req, res) => {
             return res.status(401).json({ msg: 'No Autorizado' });
         }
 
-        const tareas = await Tarea.find({ proyecto }); //  Obtener las tareas por proyecto
+        const tareas = await Tarea.find({ proyecto }).sort({ createdAt: -1 }); //  Obtener las tareas por proyecto
         res.json({ tareas });
 
     } catch (error) {

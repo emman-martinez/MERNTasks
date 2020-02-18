@@ -107,6 +107,16 @@ a {
     background-color: transparent;
 }
 
+.btn-eliminar {
+    background-color: white;
+    color: var(--gris2);
+}
+
+.btn-eliminar:hover {
+    background-color: var(--gris2);
+    color: white;
+}
+
 .cerrar-sesion {
     color: var(--blanco);
 }
