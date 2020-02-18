@@ -86,12 +86,16 @@ tareasCtrl.actualizarTarea = async(req, res) => {
         }
 
         const nuevaTarea = {}; // Crear un objeto con la nueva tarea
+        nuevaTarea.nombre = nombre;
+        nuevaTarea.estado = estado;
+        /*
         if (nombre) {
             nuevaTarea.nombre = nombre;
         }
         if (estado) {
             nuevaTarea.estado = estado;
         }
+        */
 
         tarea = await Tarea.findOneAndUpdate({ _id: req.params.id }, nuevaTarea, { new: true }); // Guardar la tarea
 
@@ -111,7 +115,9 @@ tareasCtrl.eliminarTarea = async(req, res) => {
 
     try {
 
-        const { proyecto } = req.body; // Extraer el proyecto y comprobar si existe
+        // const { proyecto } = req.body; // Extraer el proyecto y comprobar si existe
+
+        const { proyecto } = req.query; // Extraer el proyecto y comprobar si existe en params
 
         let tarea = await Tarea.findById(req.params.id); // Revisar si la tarea existe o no
         if (!tarea) {

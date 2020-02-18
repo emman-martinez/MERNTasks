@@ -8,11 +8,11 @@ import {
         AGREGAR_TAREA, 
         VALIDAR_TAREA,
         ELIMINAR_TAREA,
-        ESTADO_TAREA,
+        // ESTADO_TAREA,
         TAREA_ACTUAL,
         ACTUALIZAR_TAREA,
-        LIMPIAR_TAREA
-    } from './../../types';
+        LIMPIAR_TAREA 
+    } from './../../types'; 
 
 const TareaState = (props) => {
 
@@ -81,30 +81,47 @@ const TareaState = (props) => {
         });
     };
 
-    const eliminarTarea = (id) => { // Eliminar tarea por id
-        dispatch({
-            type: ELIMINAR_TAREA,
-            payload: id
-        });
+    const eliminarTarea = async (id, proyecto) => { // Eliminar tarea por id
+        try {
+            await clienteAxios.delete(`/api/tareas/${id}`, { params: { proyecto }});
+            dispatch({
+                type: ELIMINAR_TAREA,
+                payload: id
+            });
+        } catch(error) {
+            console.log(error);
+        }
     };
 
+    const actualizarTarea = async (tarea) => { // Edita o modifica una tarea
+        console.log(tarea);
+        try {
+
+            const resultado = await clienteAxios.put(`/api/tareas/${tarea._id}`, tarea);
+            console.log(resultado);
+
+            dispatch({
+                type: ACTUALIZAR_TAREA,
+                payload: resultado.data.tarea
+            });
+
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    /*
     const cambiarEstadoTarea = (tarea) => { // Cambia el estado de cada tarea
         dispatch({
             type: ESTADO_TAREA,
             payload: tarea
         });
     };
+    */
 
     const guardarTareaActual = (tarea) => { // Extrae una tarea para edición
         dispatch({
             type: TAREA_ACTUAL,
-            payload: tarea
-        });
-    };
-
-    const actualizarTarea = tarea => { // Edita o modifica una tarea
-        dispatch({
-            type: ACTUALIZAR_TAREA,
             payload: tarea
         });
     };
@@ -128,7 +145,7 @@ const TareaState = (props) => {
                 agregarTarea,
                 validarTarea,
                 eliminarTarea,
-                cambiarEstadoTarea,
+                // cambiarEstadoTarea,
                 guardarTareaActual,
                 actualizarTarea,
                 limpiarTarea
